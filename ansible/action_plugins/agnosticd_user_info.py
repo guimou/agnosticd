@@ -97,6 +97,7 @@ class ActionModule(ActionBase):
                 pass
 
             if not user and msg != None:
+                os.makedirs(os.path.dirname(os.path.join(output_dir, 'user-info.yaml')), exist_ok=True)
                 fh = open(os.path.join(output_dir, 'user-info.yaml'), 'a')
                 if isinstance(msg, list):
                     for m in msg:
@@ -105,12 +106,14 @@ class ActionModule(ActionBase):
                     fh.write('- ' + json.dumps(msg) + "\n")
                 fh.close()
             if not user and body != None:
+                os.makedirs(os.path.dirname(os.path.join(output_dir, 'user-body.yaml')), exist_ok=True)
                 fh = open(os.path.join(output_dir, 'user-body.yaml'), 'a')
                 fh.write('- ' + json.dumps(body) + "\n")
                 fh.close()
             if data or user:
                 user_data = None
                 try:
+                    os.makedirs(os.path.dirname(os.path.join(output_dir, 'user-data.yaml')), exist_ok=True)
                     fh = open(os.path.join(output_dir, 'user-data.yaml'), 'r')
                     user_data = yaml.safe_load(fh)
                     fh.close()
@@ -143,6 +146,7 @@ class ActionModule(ActionBase):
                 else:
                     user_data.update(data)
 
+                os.makedirs(os.path.dirname(os.path.join(output_dir, 'user-data.yaml')), exist_ok=True)
                 fh = open(os.path.join(output_dir, 'user-data.yaml'), 'w')
                 yaml.safe_dump(user_data, stream=fh, explicit_start=True)
                 fh.close()
