@@ -1,0 +1,136 @@
+---
+- name: Setting up full demo workload for first user
+  debug:
+    msg: "Setting up full demo workload for user {{ t_user }}"
+
+- name: Get RGW route
+  k8s_info:
+    api_version: route.openshift.io/v1
+    kind: Route
+    namespace: openshift-storage
+    name: s3-rgw
+  register: rgw-url-external
+
+- name: Set up CM
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/02_config-maps.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+    url: "http://rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local"
+    url-external: "https://{{ rgw-url-external[0].spec.host }}"
+    bucket-base-name: {{ t_user_project }}
+
+- name: Set up Secrets
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/03_secrets.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+    database-user: xraylab
+    database-password: xraylab
+    database-root-password: xraylab
+
+- name: Set up Database
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/04_dc-xraydb.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Set up Image Streams
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/05_image-streams.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Set up Kafka Cluster
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/06_kafka-cluster.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Set up Kafdrop
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/07_kafdrop.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Set up Kafka Topic
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/08_topics.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Set up Image Server
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/09_dc-image-server.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Set up Risk Assessment Service
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/10_service-risk-assessment.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Set up KafkaSource
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/11_kafkasource-risk-assessment.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Set up Image Generator
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/12_dc-image-generator.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Set up Grafana MySQL DataSource
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/15_grafana-mysql-datasource.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+
+- name: Get Image Server route
+  k8s_info:
+    api_version: route.openshift.io/v1
+    kind: Route
+    namespace: {{ t_user_project }}
+    name: image-server
+  register: image_server_url
+
+- name: Set up Grafana Images Dashboard
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/16_grafana-xraylab-images-dashboard-template.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+    image_server_url: "https://{{ image_server_url[0].spec.host }}"
+    bucket_base_name: {{ t_user_project }}
+
+- name: Set up Grafana Main Dashboard
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'demo/17_grafana-xraylab-dashboard-template.yaml.j2') | from_yaml }}"
+  vars:
+    namespace: {{ t_user_project }}
+    image_server_url: "https://{{ image_server_url[0].spec.host }}"
+    bucket_base_name: {{ t_user_project }}
+
+
+# Leave this as the last task in the playbook.
+# --------------------------------------------
+- name: workload tasks complete
+  debug:
+    msg: "Workload Tasks completed successfully."
+  when: not silent|bool

@@ -1,0 +1,66 @@
+---
+ocp_username: system:admin
+become_override: false
+silent: false
+
+# Components to install
+ocp4_workload_xray_pipeline_lab_install_odh_operator: true
+ocp4_workload_xray_pipeline_lab_install_odh: true
+ocp4_workload_xray_pipeline_lab_install_kafkasource: true
+
+# Catalog snapshot
+ocp4_workload_xray_pipeline_lab_use_catalog_snapshot: false
+ocp4_workload_xray_pipeline_lab_catalogsource_name: community-operators-snapshot-xraylab
+ocp4_workload_xray_pipeline_lab_catalogsource_namespace: openshift-marketplace
+ocp4_workload_xray_pipeline_lab_catalog_snapshot_image: ''
+ocp4_workload_xray_pipeline_lab_catalog_snapshot_image_tag: ''
+
+# ODH operator parameters
+ocp4_workload_xray_pipeline_lab_odh_operator_name: opendatahub-operator
+ocp4_workload_xray_pipeline_lab_odh_channel: beta
+ocp4_workload_xray_pipeline_lab_odh_automatic_install_plan_approval: true
+ocp4_workload_xray_pipeline_lab_odh_starting_csv: opendatahub-operator.v1.0.10
+ocp4_workload_xray_pipeline_lab_odh_version: v1.1.0
+
+# Per user workload parameters
+ocp4_workload_xray_pipeline_lab_user_count: 10
+ocp4_workload_xray_pipeline_lab_user_base: xraylab-
+ocp4_workload_xray_pipeline_lab_user_groups: []
+ocp4_workload_xray_pipeline_lab_user_create_quota: true
+ocp4_workload_xray_pipeline_lab_user_quota_name: "clusterquota-xray-pipeline-lab-user-{{ t_user }}"
+# ClusterResourceQuota. Must be in the format of a ClusterResourceQuota
+ocp4_workload_xray_pipeline_lab_user_quota:
+  hard:
+    requests.cpu: "5"
+    limits.cpu: "10"
+    requests.memory: 5Gi
+    limits.memory: 15Gi
+    pods: "30"
+    configmaps: "50"
+    secrets: "50"
+    services: "50"
+    persistentvolumeclaims: "5"
+    requests.storage: 6Gi
+ocp4_workload_xray_pipeline_lab_user_limits:
+- type: Container
+  default:
+    cpu: 500m
+    memory: 512Mi
+  defaultRequest:
+    cpu: 100m
+    memory: 256Mi
+# Install Grafana operator
+ocp4_workload_xray_pipeline_lab_install_grafana_operator: true
+# Grafana operator parameters
+ocp4_workload_xray_pipeline_lab_grafana_operator_name: grafana-operator
+ocp4_workload_xray_pipeline_lab_grafana_channel: alpha
+ocp4_workload_xray_pipeline_lab_grafana_automatic_install_plan_approval: true
+ocp4_workload_xray_pipeline_lab_grafana_starting_csv: grafana-operator.v3.10.1
+# Set up permissions for the user for projects the user doesn't own
+ocp4_workload_xray_pipeline_lab_user_project_permissions:
+- project: openshift-storage
+  role: view
+
+
+# Workload destroy as var
+ocp4_workload_xray_pipeline_lab_workload_destroy: "{{ False if (ACTION=='create' or ACTION=='provision') else True }}"
