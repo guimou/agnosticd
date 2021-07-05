@@ -43,7 +43,8 @@
     install_operator_channel: "{{ ocp4_workload_openshift_container_storage_ocs_channel }}"
     install_operator_automatic_install_plan_approval: "{{ ocp4_workload_openshift_container_storage_ocs_automatic_install_plan_approval | default(true) }}"
     install_operator_starting_csv: "{{ ocp4_workload_openshift_container_storage_ocs_starting_csv }}"
-    install_operator_manage_namespaces: openshift-storage
+    install_operator_manage_namespaces:
+      - openshift-storage
     install_operator_catalogsource_setup: "{{ ocp4_workload_openshift_container_storage_ocs_catalogsource_setup | default(false)}}"
     install_operator_catalogsource_name: "{{ ocp4_workload_openshift_container_storage_ocs_catalogsource_name | default('') }}"
     install_operator_catalogsource_image: "{{ ocp4_workload_openshift_container_storage_ocs_catalogsource_image | default('') }}"
