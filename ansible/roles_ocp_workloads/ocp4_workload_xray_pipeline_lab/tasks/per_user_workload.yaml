@@ -137,7 +137,7 @@
     kind: Route
     namespace: openshift-storage
     name: s3-rgw
-  register: rgw-url-external
+  register: rgw_url_external
 
 - name: Get Web Console route
   k8s_info:
@@ -174,7 +174,7 @@
       web_console_url: "https://{{ r_console_route.resources[0].spec.host }}"
       api_url: "{{ r_api_url.resources[0].status.apiServerURL }}"
       login_command: "oc login -u {{ t_user }} {{ r_api_url.resources[0].status.apiServerURL }}"
-      rgw-url-external: "https://{{ rgw-url-external[0].spec.host }}"
+      rgw_url_external: "https://{{ rgw_url_external[0].spec.host }}"
       S3_access_key: "{{ S3_access_key }}"
       S3_secret_key: "{{ S3_secret_key }}"
       ocp_username: "{{ t_user }}"

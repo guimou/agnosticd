@@ -45,7 +45,7 @@
     kind: Route
     namespace: openshift-storage
     name: s3-rgw
-  register: rgw-url-external
+  register: rgw_url_external
 
 - name: Get Web Console route
   k8s_info:
@@ -59,11 +59,11 @@
   agnosticd_user_info:
     msg: >
       "OCP Web Console Route is: {{ web_console_url }}"
-      "RGW External Route is: {{ rgw-url-external }}"
+      "RGW External Route is: {{ rgw_url_external }}"
       "A demo project has fully been deployed for the user: {{ demo_project }}"
   vars:
     web_console_url: "https://{{ r_console_route.resources[0].spec.host }}"
-    rgw-url-external: "https://{{ rgw-url-external[0].spec.host }}"
+    rgw_url_external: "https://{{ rgw_url_external[0].spec.host }}"
     demo_project: "{{ocp4_workload_xray_pipeline_lab_user_base}}1"
 
 # Leave this as the last task in the playbook.

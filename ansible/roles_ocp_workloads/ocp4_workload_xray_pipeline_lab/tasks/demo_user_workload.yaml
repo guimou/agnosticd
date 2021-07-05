@@ -9,7 +9,7 @@
     kind: Route
     namespace: openshift-storage
     name: s3-rgw
-  register: rgw-url-external
+  register: rgw_url_external
 
 - name: Set up CM
   k8s:
@@ -18,7 +18,7 @@
   vars:
     namespace: {{ t_user_project }}
     url: "http://rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc.cluster.local"
-    url-external: "https://{{ rgw-url-external[0].spec.host }}"
+    url_external: "https://{{ rgw_url_external[0].spec.host }}"
     bucket-base-name: {{ t_user_project }}
 
 - name: Set up Secrets
