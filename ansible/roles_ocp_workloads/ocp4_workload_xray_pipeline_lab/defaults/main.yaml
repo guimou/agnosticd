@@ -11,7 +11,7 @@ ocp4_workload_xray_pipeline_lab_install_kafkasource: true
 # Catalog snapshot
 ocp4_workload_xray_pipeline_lab_use_catalogsource_setup: false
 ocp4_workload_xray_pipeline_lab_catalogsource_name: community-operators-snapshot-xraylab
-ocp4_workload_xray_pipeline_lab_catalogsource_namespace: openshift-marketplace
+ocp4_workload_xray_pipeline_lab_catalogsource_namespace: openshift-operators
 ocp4_workload_xray_pipeline_lab_catalogsource_image: ''
 ocp4_workload_xray_pipeline_lab_catalogsource_image_tag: ''
 

@@ -47,6 +47,7 @@
       - openshift-storage
     install_operator_catalogsource_setup: "{{ ocp4_workload_openshift_container_storage_ocs_catalogsource_setup | default(false)}}"
     install_operator_catalogsource_name: "{{ ocp4_workload_openshift_container_storage_ocs_catalogsource_name | default('') }}"
+    install_operator_catalogsource_namespace: "{{ ocp4_workload_openshift_container_storage_ocs_catalogsource_namespace | default('') }}"
     install_operator_catalogsource_image: "{{ ocp4_workload_openshift_container_storage_ocs_catalogsource_image | default('') }}"
     install_operator_catalogsource_image_tag: "{{ ocp4_workload_openshift_container_storage_ocs_catalogsource_image_tag | default('') }}"
 
