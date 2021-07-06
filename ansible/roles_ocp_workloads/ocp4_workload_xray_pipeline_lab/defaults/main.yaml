@@ -19,7 +19,6 @@ ocp4_workload_xray_pipeline_lab_catalogsource_image_tag: ''
 ocp4_workload_xray_pipeline_lab_odh_operator_name: opendatahub-operator
 ocp4_workload_xray_pipeline_lab_odh_channel: beta
 ocp4_workload_xray_pipeline_lab_odh_automatic_install_plan_approval: true
-ocp4_workload_xray_pipeline_lab_odh_starting_csv: opendatahub-operator.v1.0.10
 ocp4_workload_xray_pipeline_lab_odh_version: v1.1.0
 
 # Per user workload parameters
@@ -55,7 +54,6 @@ ocp4_workload_xray_pipeline_lab_install_grafana_operator: true
 ocp4_workload_xray_pipeline_lab_grafana_operator_name: grafana-operator
 ocp4_workload_xray_pipeline_lab_grafana_channel: alpha
 ocp4_workload_xray_pipeline_lab_grafana_automatic_install_plan_approval: true
-ocp4_workload_xray_pipeline_lab_grafana_starting_csv: grafana-operator.v3.10.1
 # Set up permissions for the user for projects the user doesn't own
 ocp4_workload_xray_pipeline_lab_user_project_permissions:
 - project: openshift-storage

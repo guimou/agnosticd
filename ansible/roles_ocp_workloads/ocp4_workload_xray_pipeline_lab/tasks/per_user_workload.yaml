@@ -77,7 +77,6 @@
     install_operator_channel: "{{ ocp4_workload_xray_pipeline_lab_grafana_channel }}"
     install_operator_catalog: community-operators
     install_operator_automatic_install_plan_approval: "{{ ocp4_workload_xray_pipeline_lab_grafana_automatic_install_plan_approval | default(true) }}"
-    install_operator_starting_csv: "{{ ocp4_workload_xray_pipeline_lab_grafana_starting_csv }}"
     install_operator_manage_namespaces:
       - "{{ t_user_project }}"
     install_operator_catalogsource_setup: "{{ ocp4_workload_xray_pipeline_lab_catalogsource_setup | default(false)}}"
