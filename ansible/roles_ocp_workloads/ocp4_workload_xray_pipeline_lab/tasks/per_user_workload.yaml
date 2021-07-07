@@ -93,11 +93,11 @@
     namespace: "{{ t_user_project }}"
 
 - name: Add cluster monitoring role
-  shell: >
+  shell: >-
     oc adm policy add-cluster-role-to-user cluster-monitoring-view -z grafana-serviceaccount -n {{ t_user_project }}
 
 - name: Retrieve bearer token
-  shell: >
+  shell: >-
     oc serviceaccounts get-token grafana-serviceaccount -n {{ t_user_project }}
   register: grafana_bearer_token
 
@@ -110,7 +110,7 @@
     grafana_bearer_token: "{{ grafana_bearer_token }}"
 
 - name: Create S3 user
-  shell: >
+  shell: >-
     oc exec -n openshift-storage
     $(oc get pods -n openshift-storage | grep rook-ceph-tools | grep Running | awk '{print $1}')
     -- radosgw-admin user create --uid="{{ t_user }}" --display-name="{{ t_user }}"
